@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../js/mescroll/mescroll.min.css">
+<link rel="stylesheet" href="../style/style.css">
+<title>我的反馈-社会监督员</title>
+</head>
+<body id="bd_my_feedback">
+<div id="wrapper">
+	<header id="header" class="dark">
+		<a class="btn back" href="javascript:history.back();"><i></i><em>返回</em></a>
+		<h1>我的反馈</h1>
+		<div class="select-box">
+			<select>
+				<option>所有小区</option>
+				<option>柴桑春天</option>
+				<option>中航城</option>
+			</select>
+		</div>
+	</header>
+	<div class="tb-hd has-aw">
+		<span class="tb-td title">小区/单位</span>
+        <span class="tb-td date">时间</span>
+		<span class="tb-td state">状态</span>
+	</div>
+    <div id="main" class="my_feedback mescroll">
+    	<ul class="tb-list" id="data-list">
+        	<li class="link">
+				<a href="my_feedback_detail.html">
+                <em class="tb-td title">柴桑春天</em>
+                <em class="tb-td date">2018-07-06 12:12</em>
+				<em class="tb-td state st_0">待分配</em>
+				</a>
+            </li>
+			<li class="link">
+				<a href="my_feedback_detail.html">
+                <em class="tb-td title">柴桑春天</em>
+                <em class="tb-td date">2018-07-06 12:12</em>
+				<em class="tb-td state st_1">待处理</em>
+				</a>
+            </li>
+			<li class="link">
+				<a href="my_feedback_detail.html">
+                <em class="tb-td title">柴桑春天</em>
+                <em class="tb-td date">2018-07-06 12:12</em>
+				<em class="tb-td state st_2">已处理</em>
+				</a>
+            </li>
+			<li class="link">
+				<a href="my_feedback_detail.html">
+                <em class="tb-td title">柴桑春天</em>
+                <em class="tb-td date">2018-07-06 12:12</em>
+				<em class="tb-td state st_3">已完成</em>
+				</a>
+            </li>
+        </ul>
+    </div>
+	<div class="action-bar dis_0">
+		<a href="my_feedback_post.html" class="btn dark"><em>我要反馈</em></a>
+	</div>
+<style>
+.action-bar.frm {display:block;}
+.action-bar>.frm-boxs>.frm-box {margin:0;}
+.action-bar>.frm-boxs>.frm-box .select-box select {direction:rtl;}
+</style>	
+	<div class="action-bar frm dis_0">
+		<div class="frm-boxs wide">
+			<div class="frm-box">
+				<div class="frm-box-hd">
+                    <label class="frm-title">选择奖励</label>
+				</div>
+				<div class="frm-box-bd select-box">
+					<select>
+						<option>50元话费</option>
+						<option>100元话费</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<button type="button" class="btn dark"><em>确认提交</em></button>
+	</div>
+<style>
+.reward_result {
+	display: block;
+	background-color: #008c69;
+	min-height: 80px;
+}
+.reward_result::after {
+	content: "";
+	position: absolute;top:50%;right:10px;
+	width: 60px;height: 60px;margin-top:-30px;
+	background:url(../style/img/ico_jiang.png ) 0 0 no-repeat;
+	background-size: 60px;
+}
+.reward_result>label,.reward_result>em {
+	display: block;
+	color: #fff;
+}
+.reward_result>em {font-size:24px;color: #ffff73;margin-top:8px;}
+</style>	
+	<div class="action-bar reward_result">
+		<label>已奖励：</label>
+		<em>50元话费</em>
+	</div>
+</div>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/mescroll/mescroll.min.js"></script>
+<script>	
+//上拉加载下拉刷新演示	
+$(function() {
+	//创建MeScroll对象
+	var mescroll = new MeScroll("main", {
+		up: {
+			auto: true,
+			//是否在初始化时以上拉加载的方式自动加载第一页数据; 默认false
+			isBounce: false,
+			//此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+			callback: upCallback,
+			//上拉回调,此处可简写; 相当于 callback: function (page) { upCallback(page); }
+			toTop: { //配置回到顶部按钮
+				src: "../style/img/backtop.png",
+				//默认滚动到1000px显示,可配置offset修改
+				//offset : 1000
+			}
+		}
+	});
+
+	/*下拉刷新的回调 */
+	function downCallback() {
+		//联网加载数据
+		getListDataFromNet(0, 1,
+		function(data) {
+			//联网成功的回调,隐藏下拉刷新的状态
+			mescroll.endSuccess();
+			//设置列表数据
+			setListData(data, false);
+		},
+		function() {
+			//联网失败的回调,隐藏下拉刷新的状态
+			mescroll.endErr();
+		});
+	}
+
+	/*上拉加载的回调 page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+	function upCallback(page) {
+		//联网加载数据
+		getListDataFromNet(page.num, page.size,
+		function(curPageData) {
+			//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+			//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+			console.log("page.num=" + page.num + ", page.size=" + page.size + ", curPageData.length=" + curPageData.length);
+
+			//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+			//mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+			//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+			//mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+			//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+			//mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+			//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+			mescroll.endSuccess(curPageData.length);
+
+			//设置列表数据
+			setListData(curPageData, true);
+		},
+		function() {
+			//联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+			mescroll.endErr();
+		});
+	}
+
+	/*设置列表数据*/
+	function setListData(curPageData, isAppend) {
+		var listDom = $("#data-list");
+		for (var i = 0; i < curPageData.length; i++) {
+			var newObj = curPageData[i];
+			var str='<li class="link">'
+				+	 '<a href="my_feedback_detail.html">'	
+            	+    '<em class="tb-td title">'+newObj.title+'</em>'
+            	+    '<em class="tb-td date">'+newObj.date+'</em>'
+				+	 '<em class="tb-td state st_3">'+newObj.state+'</em>'
+				+    '</a>'
+            	+'</li>';
+			listDom.append(str); //加在列表的后面,上拉加载
+		}
+	}
+
+	/*
+	联网加载列表数据
+	在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+	请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+	实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+	*/
+	var downIndex = 0;
+	function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+		//延时一秒,模拟联网
+		setTimeout(function() {
+			try {
+				var newArr = [];
+				//此处模拟上拉加载返回的数据
+				for (var i = 0; i < pageSize; i++) {
+					var upIndex = (pageNum - 1) * pageSize + i + 1;
+					var newObj = {
+						title:"柴桑春天" + upIndex,
+						date:"2018-05-05 11:12",
+						state:"已完成"
+					};
+					newArr.push(newObj);
+				}
+
+				//联网成功的回调
+				successCallback && successCallback(newArr);
+			} catch(e) {
+				//联网失败的回调
+				errorCallback && errorCallback();
+			}
+		},1000)
+	}
+});
+</script>
+</body>
+</html>
