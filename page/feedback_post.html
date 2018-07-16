@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../style/style.css">
+<title>发布反馈-社会监督员</title>
+</head>
+<body id="bd_feedback_post">
+<div id="wrapper">
+	<header id="header" class="dark">
+		<a class="btn back" href="javascript:history.back();"><i></i><em>返回</em></a>
+		<h1>发布反馈</h1>
+	</header>
+    <div id="main" class="feedback_post">
+    	<form>
+			<div class="frm-boxs wide">
+				<div class="frm-box">
+					<div class="frm-box-hd">
+						<label class="frm-title">反馈类别</label>
+					</div>
+					<div class="frm-box-bd">
+						<div class="select-box">
+							<select>
+								<option>类别1</option>
+								<option>类别2</option>
+								<option>类别3</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="frm-box">
+					<div class="frm-box-hd">
+						<label class="frm-title">小区/单位</label>
+					</div>
+					<div class="frm-box-bd">
+						<input type="text" class="com-input" placeholder="点此输入反馈的小区或单位名称" />
+					</div>
+				</div>
+				<div class="frm-box">
+					<div class="frm-box-hd">
+						<label class="frm-title">反馈详情</label>
+					</div>
+					<div class="frm-box-bd">
+						<textarea class="com-input" placeholder="点此输入反馈详情"></textarea>
+					</div>
+				</div>
+				<div class="frm-box">
+					<div class="frm-box-hd">
+						<label class="frm-title">拍照上传</label>
+					</div>
+					<div class="frm-box-bd file-upload">
+						<input type="file" id="upload-file" accept="image/png,image/jpg,image/jpeg"  onchange="addFiles(this);">
+						<a class="btn-upload"><em>选择图片</em></a>
+					</div>
+				</div>
+			</div>
+			<div class="frm-action">
+				<button type="button" class="btn submit"><em>确认发布</em></button>
+			</div>
+		</form>	
+    </div>
+</div>
+<style>
+.frm-box-bd.file-upload {
+	position: relative;
+	padding: 16px;
+}
+.btn-upload {
+	position: relative;
+	display:block;
+	width: 120px;height:90px;
+	border:1px dashed #ddd;
+	background-color: #f9f9f9;
+	cursor: pointer;
+}
+.btn-upload::before,
+.btn-upload::after {
+	content:"";
+	position:absolute;left:50%;top:50%;
+	background-color: #ddd;
+}
+.btn-upload::before {
+	width: 20px;height:2px;
+	margin:-1px 0 0 -10px;
+}
+.btn-upload::after {
+	width:2px;height:20px;
+	margin:-10px 0 0 -1px;
+}
+.btn-upload>em {display:none;}
+#upload-file {
+	position: absolute;left:16px;top:16px;z-index:2;
+	width: 120px;height:90px;
+	opacity: 0;
+}
+</style>
+<script src="../js/jquery.min.js"></script>
+<script>
+//上传图片预览
+var fileArr = [];
+function addFiles(_this) {
+    var fileList = _this.files;  
+    var len = fileList.length;
+    for(var i=0;i<len;i++){
+		//限制最多只能上传5张图片
+		if(fileList.length>5||fileArr.length>4){
+			showTip("最多只能上传5张图片！","toast");
+			return false;
+		}
+        fileArr.push(fileList[i]);
+        var objUrl = getObjectURL(fileList[i]);
+        if (objUrl) {
+            var imgHtml = '<img src="' + objUrl + '">';
+           	$('.btn-upload').before('<div class="file-box">'+imgHtml+'<a class="btn-del">删除</a></div>');     
+		   	
+        }
+	};
+}
+$(".file-upload").on("click",".btn-del",function(){
+	fileArr.splice($(this).parent().index(),1);
+	$(this).parent().remove();
+	$("#upload-file").attr('type','text');
+    $("#upload-file").attr('type','file');
+});
+function getObjectURL(file) {
+    var url = null;
+    if (window.createObjectURL != undefined) {
+        url = window.createObjectURL(file);
+    } else if (window.URL != undefined) {
+        url = window.URL.createObjectURL(file);
+    } else if (window.webkitURL != undefined) {
+        url = window.webkitURL.createObjectURL(file);
+    }
+    return url;
+}
+
+function showTip(tip,position,el,time){
+	if(!el){el=$("body");}
+	if(!time){time=1600;}
+	el.children(".com-tip").remove();
+	el.append("<div class='com-tip "+position+"'>"+tip+"</div>");
+	if(position=="toast"){
+		el.children(".com-tip").fadeIn(600)
+	}else{
+		el.children(".com-tip").slideDown(300);
+	}
+	var tipTimer;
+	clearTimeout(tipTimer);
+	tipTimer=setTimeout(function(){
+		if(position=="toast"){
+			el.children(".com-tip").fadeOut(600)
+		}else{
+			el.children(".com-tip").slideUp(300);
+		}
+	},time);
+}
+</script>
+</body>
+</html>

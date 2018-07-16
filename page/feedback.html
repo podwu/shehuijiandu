@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="../style/style.css">
 <title>我的反馈-社会监督员</title>
 </head>
-<body id="bd_my_feedback">
+<body id="bd_feedback">
 <div id="wrapper">
 	<header id="header" class="dark">
 		<a class="btn back" href="javascript:history.back();"><i></i><em>返回</em></a>
@@ -25,31 +25,31 @@
         <span class="tb-td date">时间</span>
 		<span class="tb-td state">状态</span>
 	</div>
-    <div id="main" class="my_feedback mescroll">
+    <div id="main" class="feedback mescroll">
     	<ul class="tb-list" id="data-list">
         	<li class="link">
-				<a href="my_feedback_detail.html">
+				<a href="feedback_detail.html">
                 <em class="tb-td title">柴桑春天</em>
                 <em class="tb-td date">2018-07-06 12:12</em>
 				<em class="tb-td state st_0">待分配</em>
 				</a>
             </li>
 			<li class="link">
-				<a href="my_feedback_detail.html">
+				<a href="feedback_detail.html">
                 <em class="tb-td title">柴桑春天</em>
                 <em class="tb-td date">2018-07-06 12:12</em>
 				<em class="tb-td state st_1">待处理</em>
 				</a>
             </li>
 			<li class="link">
-				<a href="my_feedback_detail.html">
+				<a href="feedback_detail.html">
                 <em class="tb-td title">柴桑春天</em>
                 <em class="tb-td date">2018-07-06 12:12</em>
 				<em class="tb-td state st_2">已处理</em>
 				</a>
             </li>
 			<li class="link">
-				<a href="my_feedback_detail.html">
+				<a href="feedback_detail.html">
                 <em class="tb-td title">柴桑春天</em>
                 <em class="tb-td date">2018-07-06 12:12</em>
 				<em class="tb-td state st_3">已完成</em>
@@ -57,53 +57,39 @@
             </li>
         </ul>
     </div>
-	<div class="action-bar dis_0">
+	
+	<div class="action-bar">
 		<a href="my_feedback_post.html" class="btn dark"><em>我要反馈</em></a>
 	</div>
-<style>
-.action-bar.frm {display:block;}
-.action-bar>.frm-boxs>.frm-box {margin:0;}
-.action-bar>.frm-boxs>.frm-box .select-box select {direction:rtl;}
-</style>	
-	<div class="action-bar frm dis_0">
-		<div class="frm-boxs wide">
-			<div class="frm-box">
-				<div class="frm-box-hd">
-                    <label class="frm-title">选择奖励</label>
-				</div>
-				<div class="frm-box-bd select-box">
-					<select>
-						<option>50元话费</option>
-						<option>100元话费</option>
-					</select>
+	
+	<!--领导审核并奖励-0-->
+	<div class="action-bar com-box dis_0">
+		<header>
+			<h3><em>审核奖励</em></h3>
+		</header>
+		<div class="body">
+			<div class="frm-boxs wide">
+				<div class="frm-box">
+					<div class="frm-box-hd">
+						<label class="frm-title">选择奖励</label>
+					</div>
+					<div class="frm-box-bd select-box">
+						<select>
+							<option>50元话费</option>
+							<option>100元话费</option>
+						</select>
+					</div>
 				</div>
 			</div>
+			<div class="frm-action"><button type="button" class="btn dark"><em>确认提交</em></button></div>
 		</div>
-		<button type="button" class="btn dark"><em>确认提交</em></button>
 	</div>
-<style>
-.reward_result {
-	display: block;
-	background-color: #008c69;
-	min-height: 80px;
-}
-.reward_result::after {
-	content: "";
-	position: absolute;top:50%;right:10px;
-	width: 60px;height: 60px;margin-top:-30px;
-	background:url(../style/img/ico_jiang.png ) 0 0 no-repeat;
-	background-size: 60px;
-}
-.reward_result>label,.reward_result>em {
-	display: block;
-	color: #fff;
-}
-.reward_result>em {font-size:24px;color: #ffff73;margin-top:8px;}
-</style>	
-	<div class="action-bar reward_result">
+	
+	<div class="action-bar reward_result dis_0">
 		<label>已奖励：</label>
 		<em>50元话费</em>
 	</div>
+	<!--领导审核并奖励-1-->
 </div>
 <script src="../js/jquery.min.js"></script>
 <script src="../js/mescroll/mescroll.min.js"></script>
@@ -176,7 +162,7 @@ $(function() {
 		for (var i = 0; i < curPageData.length; i++) {
 			var newObj = curPageData[i];
 			var str='<li class="link">'
-				+	 '<a href="my_feedback_detail.html">'	
+				+	 '<a href="feedback_detail.html">'	
             	+    '<em class="tb-td title">'+newObj.title+'</em>'
             	+    '<em class="tb-td date">'+newObj.date+'</em>'
 				+	 '<em class="tb-td state st_3">'+newObj.state+'</em>'
