@@ -50,8 +50,10 @@
 						<label class="frm-title">拍照上传</label>
 					</div>
 					<div class="frm-box-bd file-upload">
-						<input type="file" id="upload-file" accept="image/png,image/jpg,image/jpeg"  onchange="addFiles(this);">
-						<a class="btn-upload"><em>选择图片</em></a>
+						<div class="upload-action">
+							<input type="file" id="upload-file" accept="image/png,image/jpg,image/jpeg"  onchange="addFiles(this);">
+							<a class="btn-upload"><em>选择图片</em></a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -61,40 +63,6 @@
 		</form>	
     </div>
 </div>
-<style>
-.frm-box-bd.file-upload {
-	position: relative;
-	padding: 16px;
-}
-.btn-upload {
-	position: relative;
-	display:block;
-	width: 120px;height:90px;
-	border:1px dashed #ddd;
-	background-color: #f9f9f9;
-	cursor: pointer;
-}
-.btn-upload::before,
-.btn-upload::after {
-	content:"";
-	position:absolute;left:50%;top:50%;
-	background-color: #ddd;
-}
-.btn-upload::before {
-	width: 20px;height:2px;
-	margin:-1px 0 0 -10px;
-}
-.btn-upload::after {
-	width:2px;height:20px;
-	margin:-10px 0 0 -1px;
-}
-.btn-upload>em {display:none;}
-#upload-file {
-	position: absolute;left:16px;top:16px;z-index:2;
-	width: 120px;height:90px;
-	opacity: 0;
-}
-</style>
 <script src="../js/jquery.min.js"></script>
 <script>
 //上传图片预览
@@ -103,17 +71,12 @@ function addFiles(_this) {
     var fileList = _this.files;  
     var len = fileList.length;
     for(var i=0;i<len;i++){
-		//限制最多只能上传5张图片
-		if(fileList.length>5||fileArr.length>4){
-			showTip("最多只能上传5张图片！","toast");
-			return false;
-		}
         fileArr.push(fileList[i]);
         var objUrl = getObjectURL(fileList[i]);
         if (objUrl) {
             var imgHtml = '<img src="' + objUrl + '">';
-           	$('.btn-upload').before('<div class="file-box">'+imgHtml+'<a class="btn-del">删除</a></div>');     
-		   	
+           	$('.upload-action').before('<div class="file-box">'+imgHtml+'<a class="btn-del">重选</a></div>');     
+		   	$(".upload-action").addClass("dis_0");
         }
 	};
 }
@@ -122,6 +85,7 @@ $(".file-upload").on("click",".btn-del",function(){
 	$(this).parent().remove();
 	$("#upload-file").attr('type','text');
     $("#upload-file").attr('type','file');
+	$(".upload-action").removeClass("dis_0");
 });
 function getObjectURL(file) {
     var url = null;
